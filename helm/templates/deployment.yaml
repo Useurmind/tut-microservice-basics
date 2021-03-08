@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-micro
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: go-micro
+  template:
+    metadata:
+      labels:
+        app: go-micro
+    spec:
+      containers:
+      - name: go-micro
+        image: local/go-micro:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080

@@ -1,0 +1,1 @@
+helm upgrade go-micro ./helm --install -n gomicro --create-namespace --kube-context docker-desktop
