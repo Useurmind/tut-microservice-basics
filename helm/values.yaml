@@ -1,0 +1,4 @@
+postgres:
+  existingSecret: db-secret
+  postgresqlUsername: db_user
+  postgresqlDatabase: gomicro

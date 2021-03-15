@@ -12,6 +12,7 @@ RUN go build -o svc .
 
 FROM ubuntu as run
 
+RUN apt-get update && apt-get install -y netcat
 COPY --from=build /app/svc /app/svc
 WORKDIR /app
 ENTRYPOINT [ "/app/svc" ]

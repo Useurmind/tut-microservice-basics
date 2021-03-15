@@ -16,5 +16,20 @@ spec:
       - name: go-micro
         image: local/go-micro:latest
         imagePullPolicy: IfNotPresent
+        env:
+        - name: DB_HOST
+          value: postgres-postgresql
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: gomicro
+        - name: DB_USER
+          value: db_user
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: postgres-postgresql
+              key: postgresql-password
+
         ports:
         - containerPort: 8080
