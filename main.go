@@ -7,6 +7,7 @@ import (
 	"github.com/rs/zerolog/log"
 
 	"github.com/useurmind/tut-microservice-basics/pkg/database"
+	"github.com/useurmind/tut-microservice-basics/pkg/web"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -14,16 +15,9 @@ import (
 func main() {
 	r := gin.Default()
 
-	db, err := database.GetConnection()
-	if err != nil {
-		log.Error().Err(err).Msg("Could not connect to database")
-		os.Exit(1)
-	}
-	err = database.MigrateDatabase(db.DB)
-	if err != nil {
-		log.Error().Err(err).Msg("Could not migrate database")
-		os.Exit(1)
-	}
+	err := database.MigrateDatabase()
+	handleError(err, "migrate_database")
+	
 
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -33,6 +27,14 @@ func main() {
 
 	r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
+	web.HandlePeople("/people", r)
+
 	r.Run()
 }
 
+func handleError(err error, action string) {
+	if err != nil {
+		log.Error().Err(err).Msgf("Error during %s", action)
+		os.Exit(1)
+	}
+}

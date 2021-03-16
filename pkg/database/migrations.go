@@ -22,7 +22,23 @@ func getMigrationsSource() *migrate.MemoryMigrationSource {
 	return migrations
 }
 
-func MigrateDatabase(db *sql.DB) error {
+func MigrateDatabase() error {
+	db, err := GetConnection()
+	if err != nil {
+		log.Error().Err(err).Msg("Could not connect to database")
+		return err
+	}
+	defer db.Close()
+	err = migrateDatabase(db.DB)
+	if err != nil {
+		log.Error().Err(err).Msg("Could not migrate database")
+		return err
+	}
+
+	return nil
+}
+
+func migrateDatabase(db *sql.DB) error {
 	res, err := migrate.Exec(db, "postgres", getMigrationsSource(), migrate.Up)
 	if err != nil {
 		log.Error().Err(err).Msg("Applying migrations failed")

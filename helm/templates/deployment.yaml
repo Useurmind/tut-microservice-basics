@@ -11,6 +11,8 @@ spec:
     metadata:
       labels:
         app: go-micro
+      annotations:
+        timestamp: {{ now | quote }}
     spec:
       containers:
       - name: go-micro
