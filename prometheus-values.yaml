@@ -1,0 +1,14 @@
+alertmanager:
+  ingress:
+    enabled: true
+    hosts: [alertmanager.kube.local]
+
+grafana:
+  ingress:
+    enabled: true
+    hosts: [grafana.kube.local]
+
+prometheus:
+  ingress:
+    enabled: true
+    hosts: [prometheus.kube.local]

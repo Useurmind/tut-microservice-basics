@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: gomicro
+  labels:
+    app: gomicro-svc
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: gomicro-svc
+  namespaceSelector:
+    matchNames:
+    - gomicro
+  endpoints:
+  - port: web
+    path: /metrics
+    honorLabels: true
